@@ -48,7 +48,8 @@ subsidized <- subsidized_raw |>
   )
 
 all_bbls_eligibilty <- all_bbls |> 
-  left_join(subsidized, by = "bbl")
+  left_join(subsidized, by = "bbl") |> 
+  mutate(is_subsidized = coalesce(is_subsidized, FALSE))
 
 gce_bbls <- all_bbls_eligibilty |> 
   filter(
