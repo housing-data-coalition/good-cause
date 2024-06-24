@@ -67,4 +67,5 @@ gce_bbls <- all_bbls_eligibilty |>
     wow_link
   )
 
+write_csv(all_bbls_eligibilty, path("data", "all-bbls-eligibility_2024-06-24.csv"), na="")
 write_csv(gce_bbls, path("data", "likely-gce-bbls_2024-06-24.csv"), na="")
