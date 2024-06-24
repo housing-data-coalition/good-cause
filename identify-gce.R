@@ -5,7 +5,7 @@ library(DBI)
 library(RPostgres)
 library(fs)
 library(dotenv)
-
+library(sf)
 
 # NYCDB credentials pulled from hidden file
 load_dot_env(".env")
@@ -63,9 +63,24 @@ gce_bbls <- all_bbls_eligibilty |>
   mutate(wow_link = str_glue("https://whoownswhat.justfix.org/bbl/{bbl}")) |> 
   select(
     bbl, address, borough,
-    unitsres, rs_units, yearbuilt, bldgclass,
-    wow_link
+    unitsres, rs_units, yearbuilt, bldgclass, ownername,
+    wow_link,
+    latitude, longitude
   )
 
 write_csv(all_bbls_eligibilty, path("data", "all-bbls-eligibility_2024-06-24.csv"), na="")
 write_csv(gce_bbls, path("data", "likely-gce-bbls_2024-06-24.csv"), na="")
+
+
+gce_bbls |> 
+  filter(!is.na(latitude)) |> 
+  st_as_sf( coords = c("longitude", "latitude"), crs = 4326) |> 
+  transmute(
+    bbl, 
+    address, 
+    borough,
+    units = unitsres,
+    year_built = yearbuilt
+  ) |> 
+  write_sf(path("data", "gce-bbls.geojson"), delete_dsn = TRUE)
+
