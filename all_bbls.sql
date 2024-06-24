@@ -5,6 +5,7 @@ SELECT
 	p.unitsres,
 	p.yearbuilt,
 	p.bldgclass,
+	p.ownername,
 	
 	coalesce(nullif(r.uc2022, 0), nullif(r.uc2021, 0), nullif(r.uc2020, 0), nullif(r.uc2019, 0), 0) as rs_units,
 	
