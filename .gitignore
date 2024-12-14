@@ -1,7 +1,10 @@
-.env
+.env*
 data/all-bbls-eligibility_2024-06-24.csv
+venv/
+.ipynb_checkpoints/*
 
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
